@@ -1,6 +1,6 @@
 package by.innowise.task.dao.impl;
 
-import by.innowise.task.connection.ConnectionManager;
+import by.innowise.task.connection.ConnectionPool;
 import by.innowise.task.dao.BaseDao;
 import by.innowise.task.exception.DaoException;
 import by.innowise.task.model.user.UserModel;
@@ -17,15 +17,31 @@ import java.util.List;
 public class UserDao implements BaseDao<UserModel> {
     private static final Logger logger = LogManager.getLogger();
 
+    private final ConnectionPool connectionPool;
+
+    private static final String FIND_BY_ID_QUERY = "SELECT * FROM user WHERE id = ? LIMIT 1;";
+    private static final String FIND_ALL_QUERY = "SELECT * FROM user;";
+    private static final String INSERT_QUERY = "INSERT INTO user (name, password, email, role) VALUES (?, ?, ?, ?);";
+    private static final String UPDATE_BY_ID_QUERY = "UPDATE user SET name = ?, password = ?, email = ?, role = ? WHERE id = ?";
+    private static final String DELETE_BY_ID_QUERY = "DELETE FROM user WHERE id = ?";
+
+    public UserDao() throws DaoException {
+        try {
+            connectionPool = ConnectionPool.getInstance();
+        }
+        catch (Exception e) {
+            throw new DaoException("Cannot get pool's instance");
+        }
+    }
+
     @Override
     public UserModel findById(int id) throws DaoException {
         UserModel user = null;
-
-        final String query = "SELECT * FROM user WHERE id = ? LIMIT 1;";
+        Connection connection = null;
 
         try{
-            Connection connection = ConnectionManager.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            connection = connectionPool.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID_QUERY);
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -44,6 +60,8 @@ public class UserDao implements BaseDao<UserModel> {
         } catch (SQLException e){
             logger.error("DAO: Search of a user with id {} is failed", id);
             throw new DaoException("Failed to find a user with id " + id);
+        } finally {
+            connectionPool.releaseConnection(connection);
         }
 
         return user;
@@ -52,12 +70,11 @@ public class UserDao implements BaseDao<UserModel> {
     @Override
     public List<UserModel> findAll() throws DaoException {
         List<UserModel> users = new ArrayList<>();
-
-        final String query = "SELECT * FROM user;";
+        Connection connection = null;
 
         try{
-            Connection connection = ConnectionManager.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            connection = connectionPool.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_QUERY);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while(resultSet.next()) {
@@ -72,6 +89,8 @@ public class UserDao implements BaseDao<UserModel> {
         } catch (SQLException e){
             logger.error("DAO: Failed to find all users");
             throw new DaoException("Failed to find users");
+        }finally{
+            connectionPool.releaseConnection(connection);
         }
 
         return users;
@@ -79,11 +98,11 @@ public class UserDao implements BaseDao<UserModel> {
 
     @Override
     public void insert(UserModel user) throws DaoException {
-        final String query = "INSERT INTO user (name, password, email, role) VALUES (?, ?, ?, ?);";
+        Connection connection = null;
 
         try{
-            Connection connection = ConnectionManager.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            connection = connectionPool.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(INSERT_QUERY);
 
             preparedStatement.setString(1, user.getName());
             preparedStatement.setString(2, user.getPassword());
@@ -93,19 +112,21 @@ public class UserDao implements BaseDao<UserModel> {
             preparedStatement.executeUpdate();
             logger.info("DAO: User {} was successfully inserted", user.getId());
         } catch (SQLException e){
-            logger.error("DAO: Failed to insert user {}", user.getId());
+            logger.error("DAO: Failed to insert user {} " + e, user.getId());
             throw new DaoException("Failed to insert user");
+        }finally {
+            connectionPool.releaseConnection(connection);
         }
     }
 
     @Override
     public void update(UserModel user) throws DaoException {
-        final String query = "UPDATE user SET name = ?, password = ?, email = ?, role = ? WHERE id = ?";
+        Connection connection = null;
 
         try {
-            Connection connection = ConnectionManager.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            connection = connectionPool.getConnection();
 
+            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_BY_ID_QUERY);
             preparedStatement.setString(1, user.getName());
             preparedStatement.setString(2, user.getPassword());
             preparedStatement.setString(3, user.getEmail());
@@ -120,16 +141,20 @@ public class UserDao implements BaseDao<UserModel> {
         } catch (SQLException e) {
             logger.error("DAO: Failed to update user {}", user.getId());
             throw new DaoException("Failed to update user");
+        }finally {
+            connectionPool.releaseConnection(connection);
         }
     }
 
     @Override
     public void delete(UserModel user) throws DaoException {
-        final String query = "DELETE FROM user WHERE id = ?";
+        Connection connection = null;
 
         try {
-            Connection connection = ConnectionManager.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            connection = connectionPool.getConnection();
+
+            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_BY_ID_QUERY);
+            preparedStatement.setLong(1, user.getId());
 
             int rowsAffected = preparedStatement.executeUpdate();
             if (rowsAffected == 0) {
@@ -140,6 +165,8 @@ public class UserDao implements BaseDao<UserModel> {
         } catch (SQLException e) {
             logger.error("DAO: Failed to delete user {}", user.getId());
             throw new DaoException("Failed to update user");
+        } finally{
+            connectionPool.releaseConnection(connection);
         }
     }
 }

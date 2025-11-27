@@ -7,7 +7,7 @@ import java.util.Objects;
 public class UserModel extends BaseModel {
     public enum Role{
         APPLICANT,
-        ADMiN
+        ADMIN
     }
 
     private String name;

@@ -24,6 +24,7 @@ public class UserDao implements BaseDao<UserModel> {
     private static final String INSERT_QUERY = "INSERT INTO user (name, password, email, role) VALUES (?, ?, ?, ?);";
     private static final String UPDATE_BY_ID_QUERY = "UPDATE user SET name = ?, password = ?, email = ?, role = ? WHERE id = ?";
     private static final String DELETE_BY_ID_QUERY = "DELETE FROM user WHERE id = ?";
+    private static final String FIND_BY_NAME_QUERY = "SELECT * FROM user WHERE name = ? LIMIT 1;";
 
     public UserDao() throws DaoException {
         try {
@@ -168,5 +169,37 @@ public class UserDao implements BaseDao<UserModel> {
         } finally{
             connectionPool.releaseConnection(connection);
         }
+    }
+
+    public UserModel findByName(String name) throws DaoException {
+        UserModel user = null;
+        Connection connection = null;
+
+        try{
+            connection = connectionPool.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_NAME_QUERY);
+            preparedStatement.setString(1, name);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if(resultSet.next()) {
+                user = new UserModel();
+                user.setId(resultSet.getInt("id"));
+                user.setName(resultSet.getString("name"));
+                user.setPassword(resultSet.getString("password"));
+                user.setEmail(resultSet.getString("email"));
+                user.setRole(UserModel.Role.valueOf(resultSet.getString("role")));
+                logger.info("DAO: User with name {} was found", name);
+            }
+            else{
+                logger.info("DAO: User with name {} wasn't found", name);
+            }
+        } catch (SQLException e){
+            logger.error("DAO: Search of a user with name {} is failed", name);
+            throw new DaoException("Failed to find a user with name " + name);
+        } finally {
+            connectionPool.releaseConnection(connection);
+        }
+
+        return user;
     }
 }

@@ -5,8 +5,6 @@ import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
 
-import java.sql.Connection;
-
 @WebListener
 public class AppContextListener implements ServletContextListener {
     @Override

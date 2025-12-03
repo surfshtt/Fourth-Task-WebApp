@@ -21,8 +21,8 @@ public class ConnectionPool {
     static {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            throw new ExceptionInInitializerError(e);
         }
     }
 

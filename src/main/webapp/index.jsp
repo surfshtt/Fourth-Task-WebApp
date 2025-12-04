@@ -11,19 +11,24 @@
             padding: 0;
         }
 
-        /* Верхняя панель */
         .top-bar {
             background: #2c3e50;
-            padding: 10px 20px;
-            text-align: right;
+            padding: 10px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            font-size: 22px;
+            font-weight: bold;
         }
 
-        .top-bar input[type="submit"] {
+        .top-bar form input[type="submit"] {
             background: #3498db;
             color: white;
-            padding: 8px 14px;
+            padding: 14px 28px;
+            font-size: 20px;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
         }
 
@@ -75,18 +80,18 @@
 
 <body>
 
-<!-- Верхняя панель -->
 <div class="top-bar">
-    <form action="pages/login.jsp" method="get">
+    <div>МИНСКИЙ УНИВЕРСИТЕТ ИННОВАЙЗ</div>
+
+    <form action="<%=request.getContextPath()%>/login" method="get">
         <input type="submit" value="Войти">
     </form>
 </div>
 
 <div class="container">
 
-    <h1>Добро пожаловать в Приёмную комиссию</h1>
+    <h1>Добро пожаловать!</h1>
 
-    <!-- Выбор специальности -->
     <h3>Выберите специальность для подачи документов</h3>
 
     <form action="apply.jsp" method="post">

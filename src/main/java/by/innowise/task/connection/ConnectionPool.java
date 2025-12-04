@@ -35,12 +35,9 @@ public class ConnectionPool {
 
     private ConnectionPool() throws SQLException {
         for (int i = 0; i < POOL_SIZE; i++) {
-            availableConnections.add(createConnection());
+            Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+            availableConnections.add(connection);
         }
-    }
-
-    private Connection createConnection() throws SQLException {
-        return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 
     public synchronized Connection getConnection() throws SQLException {

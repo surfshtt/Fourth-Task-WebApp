@@ -1,4 +1,3 @@
-<%@ page import="by.innowise.task.servlet.ServletConstants" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -31,7 +30,7 @@
             margin-top: 20px;
         }
 
-        input[type="text"],
+        input[type="email"],
         input[type="password"],
         select {
             padding: 12px;
@@ -70,25 +69,18 @@
     <h2>Вход в систему</h2>
 
     <form action="<%=request.getContextPath()%>/login" method="post">
-        <input type="text" name="username" placeholder="Имя пользователя" required>
+        <input type="email" name="email" placeholder="Email" required>
         <input type="password" name="password" placeholder="Пароль" required>
-
-        <%
-            String errorMessage = (String) request.getAttribute(ServletConstants.ERROR_MESSAGE_ATTRIBUTE);
-            if(errorMessage != null){
-        %>
-        <div style="color: red">
-            <%=errorMessage%>
-        </div>
-        <%
-            }
-        %>
+        <select name="role">
+            <option value="APPLICANT">Абитуриент</option>
+            <option value="ADMIN">Администратор</option>
+        </select>
 
         <input type="submit" value="Войти">
     </form>
 
     <div class="footer-text">
-        Нет аккаунта? <a href="<%=request.getContextPath()%>/registration">Регистрация</a>
+        Нет аккаунта? Обратитесь в приёмную комиссию.
     </div>
 </div>
 

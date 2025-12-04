@@ -19,19 +19,19 @@ public class UserDao implements BaseDao<UserModel> {
 
     private final ConnectionPool connectionPool;
 
-    private static final String FIND_BY_ID_QUERY = "SELECT * FROM user WHERE id = ? LIMIT 1;";
-    private static final String FIND_ALL_QUERY = "SELECT * FROM user;";
+    private static final String FIND_BY_ID_QUERY = "SELECT id, name, password, email, role FROM user WHERE id = ? LIMIT 1;";
+    private static final String FIND_ALL_QUERY = "SELECT id, name, password, email, role FROM user;";
     private static final String INSERT_QUERY = "INSERT INTO user (name, password, email, role) VALUES (?, ?, ?, ?);";
     private static final String UPDATE_BY_ID_QUERY = "UPDATE user SET name = ?, password = ?, email = ?, role = ? WHERE id = ?";
     private static final String DELETE_BY_ID_QUERY = "DELETE FROM user WHERE id = ?";
-    private static final String FIND_BY_NAME_QUERY = "SELECT * FROM user WHERE name = ? LIMIT 1;";
+    private static final String FIND_BY_NAME_QUERY = "SELECT id, name, password, email, role FROM user WHERE name = ? LIMIT 1;";
 
-    public UserDao() throws DaoException {
+    public UserDao() {
         try {
             connectionPool = ConnectionPool.getInstance();
         }
         catch (Exception e) {
-            throw new DaoException("Cannot get pool's instance");
+            throw new ExceptionInInitializerError("Cannot get pool's instance");
         }
     }
 
@@ -113,7 +113,7 @@ public class UserDao implements BaseDao<UserModel> {
             preparedStatement.executeUpdate();
             logger.info("DAO: User {} was successfully inserted", user.getId());
         } catch (SQLException e){
-            logger.error("DAO: Failed to insert user {} " + e, user.getId());
+            logger.error("DAO: Failed to insert user {} ", user.getId());
             throw new DaoException("Failed to insert user");
         }finally {
             connectionPool.releaseConnection(connection);
@@ -194,7 +194,7 @@ public class UserDao implements BaseDao<UserModel> {
                 logger.info("DAO: User with name {} wasn't found", name);
             }
         } catch (SQLException e){
-            logger.error("DAO: Search of a user with name {} is failed", name);
+            logger.error("DAO: Search o user is failed: " + e);
             throw new DaoException("Failed to find a user with name " + name);
         } finally {
             connectionPool.releaseConnection(connection);

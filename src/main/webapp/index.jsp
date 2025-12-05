@@ -1,3 +1,4 @@
+<%@ page import="by.innowise.task.servlet.ServletConstants" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -25,8 +26,8 @@
         .top-bar form input[type="submit"] {
             background: #3498db;
             color: white;
-            padding: 14px 28px;
-            font-size: 20px;
+            padding: 12px 28px;
+            font-size: 18px;
             border: none;
             border-radius: 6px;
             cursor: pointer;
@@ -81,9 +82,9 @@
 <body>
 
 <div class="top-bar">
-    <div>МИНСКИЙ УНИВЕРСИТЕТ ИННОВАЙЗ</div>
+    <div style="font-size: 25px">МИНСКИЙ УНИВЕРСИТЕТ ИННОВАЙЗ</div>
 
-    <form action="<%=request.getContextPath()%>/login" method="get">
+    <form action="<%=request.getContextPath() + ServletConstants.LOGIN_PAGE_REDIRECT%>" method="get">
         <input type="submit" value="Войти">
     </form>
 </div>

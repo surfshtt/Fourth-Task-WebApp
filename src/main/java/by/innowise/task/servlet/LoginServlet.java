@@ -3,6 +3,7 @@ package by.innowise.task.servlet;
 import java.io.*;
 
 import by.innowise.task.exception.ServiceException;
+import by.innowise.task.model.user.UserModel;
 import by.innowise.task.service.auth.impl.AuthenticationServiceImpl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
@@ -33,7 +34,7 @@ public class LoginServlet extends HttpServlet {
                 session.setAttribute(ServletConstants.USER_NAME_ATTRIBUTE, username);
                 session.setAttribute(ServletConstants.IS_LOG_ATTRIBUTE, true);
 
-                request.getRequestDispatcher(ServletConstants.MAIN_PAGE).forward(request, response);
+                response.sendRedirect(request.getContextPath() + ServletConstants.MAIN_PAGE_REDIRECT);
             }
             else{
                 request.setAttribute(ServletConstants.ERROR_MESSAGE_ATTRIBUTE, "Неправильное имя пользователя или пароль.");

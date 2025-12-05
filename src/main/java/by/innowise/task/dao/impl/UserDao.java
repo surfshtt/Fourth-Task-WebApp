@@ -111,9 +111,9 @@ public class UserDao implements BaseDao<UserModel> {
             preparedStatement.setString(4, user.getRole().toString());
 
             preparedStatement.executeUpdate();
-            logger.info("DAO: User {} was successfully inserted", user.getId());
+            logger.info("DAO: User was successfully inserted");
         } catch (SQLException e){
-            logger.error("DAO: Failed to insert user {} ", user.getId());
+            logger.error("DAO: Failed to insert user " + e);
             throw new DaoException("Failed to insert user");
         }finally {
             connectionPool.releaseConnection(connection);

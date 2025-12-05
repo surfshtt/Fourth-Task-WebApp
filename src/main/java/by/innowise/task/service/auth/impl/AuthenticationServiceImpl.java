@@ -50,7 +50,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             return false;
         }
 
-        UserModel existingUser = new UserModel();
+        UserModel existingUser = null;
         try {
             existingUser = userDao.findByName(user.getName());
         }
@@ -59,12 +59,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             throw new ServiceException("Catch exception while trying to find user with name: " + user.getName(), e);
         }
 
-        if(!(existingUser == null)){
+        if(existingUser != null){
             return false;
         }
 
         user.setPassword(PasswordHasher.hashPassword(user.getPassword()));
-        user.setRole(UserModel.Role.APPLICANT);
+        user.setRole(UserModel.Role.ADMIN);
 
         try {
             userDao.insert(user);

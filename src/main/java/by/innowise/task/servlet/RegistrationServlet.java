@@ -1,7 +1,7 @@
 package by.innowise.task.servlet;
 
 import by.innowise.task.exception.ServiceException;
-import by.innowise.task.model.user.UserModel;
+import by.innowise.task.model.UserModel;
 import by.innowise.task.service.auth.AuthenticationService;
 import by.innowise.task.service.auth.impl.AuthenticationServiceImpl;
 import jakarta.servlet.ServletException;
@@ -15,7 +15,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
-@WebServlet(name = "RegistrationServlet", value = "/registration")
+@WebServlet(name = "RegistrationServlet", value = ServletConstants.REG_PAGE_REDIRECT)
 public class RegistrationServlet extends HttpServlet {
     private static final Logger logger = LogManager.getLogger();
 
@@ -25,7 +25,7 @@ public class RegistrationServlet extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        request.getRequestDispatcher("/pages/registration.jsp").forward(request,response);
+        request.getRequestDispatcher(ServletConstants.REG_PAGE).forward(request,response);
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {

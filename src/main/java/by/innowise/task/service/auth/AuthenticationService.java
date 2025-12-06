@@ -1,7 +1,7 @@
 package by.innowise.task.service.auth;
 
 import by.innowise.task.exception.ServiceException;
-import by.innowise.task.model.user.UserModel;
+import by.innowise.task.model.UserModel;
 
 public interface AuthenticationService {
     boolean tryLogin(String username, String password) throws ServiceException;

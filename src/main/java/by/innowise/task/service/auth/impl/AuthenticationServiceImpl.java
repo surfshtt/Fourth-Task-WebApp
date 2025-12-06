@@ -4,7 +4,7 @@ import by.innowise.task.dao.impl.UserDao;
 import by.innowise.task.exception.DaoException;
 import by.innowise.task.exception.ServiceException;
 import by.innowise.task.hasher.PasswordHasher;
-import by.innowise.task.model.user.UserModel;
+import by.innowise.task.model.UserModel;
 import by.innowise.task.service.auth.AuthenticationService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet(name = "MainServlet", value = "/main")
+@WebServlet(name = "MainServlet", value =ServletConstants.MAIN_PAGE_REDIRECT)
 public class MainServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException,IOException {
         request.getRequestDispatcher(ServletConstants.MAIN_PAGE ).forward(request, response);

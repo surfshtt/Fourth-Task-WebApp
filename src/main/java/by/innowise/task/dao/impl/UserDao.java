@@ -3,7 +3,7 @@ package by.innowise.task.dao.impl;
 import by.innowise.task.connection.ConnectionPool;
 import by.innowise.task.dao.BaseDao;
 import by.innowise.task.exception.DaoException;
-import by.innowise.task.model.user.UserModel;
+import by.innowise.task.model.UserModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

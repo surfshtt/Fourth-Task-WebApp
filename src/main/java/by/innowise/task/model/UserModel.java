@@ -1,6 +1,4 @@
-package by.innowise.task.model.user;
-
-import by.innowise.task.model.BaseModel;
+package by.innowise.task.model;
 
 import java.util.Objects;
 

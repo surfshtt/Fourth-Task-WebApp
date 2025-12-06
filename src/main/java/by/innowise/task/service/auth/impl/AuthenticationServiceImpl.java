@@ -64,7 +64,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
 
         user.setPassword(PasswordHasher.hashPassword(user.getPassword()));
-        user.setRole(UserModel.Role.ADMIN);
+        user.setRole(UserModel.Role.APPLICANT);
 
         try {
             userDao.insert(user);

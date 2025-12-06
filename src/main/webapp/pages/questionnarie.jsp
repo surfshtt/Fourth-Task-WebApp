@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Главная страница — Подача документов</title>
+    <title>Анкета абитуриента</title>
 
     <style>
         body {
@@ -84,71 +84,25 @@
 <div class="top-bar">
     <div style="font-size: 25px">МИНСКИЙ УНИВЕРСИТЕТ ИННОВАЙЗ</div>
 
-    <%
-        HttpSession currentSession = request.getSession();
-        boolean isLogged = Boolean.TRUE.equals(currentSession.getAttribute(ServletConstants.IS_LOG_ATTRIBUTE));
-        if(isLogged){
-    %>
-        <form action="TODO" method="get">
-            <input type="submit" value="Аккаунт">
-        </form>
-    <%
-        }
-        else{
-    %>
-        <form action="<%=request.getContextPath() + ServletConstants.LOGIN_PAGE_REDIRECT%>" method="get">
-            <input type="submit" value="Войти">
-        </form>
-    <%
-        }
-    %>
-
+    <form action="TODO" method="get">
+        <input type="submit" value="Профиль">
+    </form>
 </div>
 
 <div class="container">
 
-    <h1>Добро пожаловать!</h1>
+    <h1>Приветствуем!</h1>
 
-    <h3>Выберите специальность для подачи документов</h3>
+    <h3>Анкета абитуриента</h3>
 
-    <%
-        if(isLogged){
-    %>
     <form action="TODO" method="post">
-        <select name="specialty">
-            <option value="informatika">Информатика</option>
-            <option value="ekonomika">Экономика</option>
-            <option value="yurisprudenciya">Юриспруденция</option>
-            <option value="stroitelstvo">Строительство</option>
-        </select>
+        <input type="text" name="fio" placeholder="ФИО" required><br><br>
+        <input type="email" name="email" placeholder="Email" required><br><br>
+        <input type="text" name="phone" placeholder="Телефон"><br><br>
+        <input type="number" name="age" placeholder="Возраст"><br><br>
 
-        <br>
-        <input type="submit" value="Подать документы">
+        <input type="submit" value="Сохранить анкету">
     </form>
-    <%
-        }
-        else{
-    %>
-    <form action="<%=request.getContextPath() + ServletConstants.LOGIN_PAGE_REDIRECT%>" method="get">
-        <select name="specialty">
-            <option value="informatika">Информатика</option>
-            <option value="ekonomika">Экономика</option>
-            <option value="yurisprudenciya">Юриспруденция</option>
-            <option value="stroitelstvo">Строительство</option>
-        </select>
-
-        <br>
-        <input type="submit" value="Подать документы">
-    </form>
-    <%
-        }
-    %>
-
-
-    <hr>
-
-
-
 </div>
 
 </body>

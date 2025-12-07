@@ -10,7 +10,7 @@
 
         <form action="<%=request.getContextPath()%>/registration" method="post">
             <input type="text" name="username" placeholder="Имя пользователя" required>
-            <input type="fio" name="fio" placeholder="Email" required>
+            <input type="email" name="email" placeholder="Email" required>
             <input type="password" name="password" placeholder="Пароль" required>
             <input type="password" name="passwordRepeat" placeholder="Подтвердите пароль" required>
 

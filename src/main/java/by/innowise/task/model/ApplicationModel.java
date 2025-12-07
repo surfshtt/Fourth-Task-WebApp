@@ -1,6 +1,5 @@
 package by.innowise.task.model;
 
-import java.util.Map;
 import java.util.Objects;
 
 public class ApplicationModel extends BaseModel {
@@ -13,10 +12,10 @@ public class ApplicationModel extends BaseModel {
 
     private long userId;
     private String facultyName;
-    private int diplomaScore;
+    private float diplomaScore;
     private String description;
     private String mobilePhone;
-    private String email;
+    private String fio;
     private Status status;
 
     public long getUserId() {
@@ -27,7 +26,7 @@ public class ApplicationModel extends BaseModel {
         return facultyName;
     }
 
-    public int getDiplomaScore() {
+    public float getDiplomaScore() {
         return diplomaScore;
     }
 
@@ -39,8 +38,8 @@ public class ApplicationModel extends BaseModel {
         return mobilePhone;
     }
 
-    public String getEmail() {
-        return email;
+    public String getFio() {
+        return fio;
     }
 
     public Status getStatus() {
@@ -55,7 +54,7 @@ public class ApplicationModel extends BaseModel {
         this.facultyName = facultyName;
     }
 
-    public void setDiplomaScore(int diplomaScore) {
+    public void setDiplomaScore(float diplomaScore) {
         this.diplomaScore = diplomaScore;
     }
 
@@ -67,8 +66,8 @@ public class ApplicationModel extends BaseModel {
         this.mobilePhone = mobilePhone;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setFio(String fio) {
+        this.fio = fio;
     }
 
     public void setStatus(Status status) {
@@ -83,7 +82,7 @@ public class ApplicationModel extends BaseModel {
                 "diplomaScore:" + diplomaScore + "\n" +
                 "description:" + description + "\n" +
                 "mobilePhone:" + mobilePhone + "\n" +
-                "email:" + email + "\n" +
+                "fio:" + fio + "\n" +
                 "status:" + status;
     }
 
@@ -107,7 +106,7 @@ public class ApplicationModel extends BaseModel {
                 Objects.equals(this.facultyName, other.facultyName) &&
                 Objects.equals(this.description, other.description) &&
                 Objects.equals(this.mobilePhone, other.mobilePhone) &&
-                Objects.equals(this.email, other.email) &&
+                Objects.equals(this.fio, other.fio) &&
                 this.status == other.status;
     }
 
@@ -118,11 +117,11 @@ public class ApplicationModel extends BaseModel {
 
         result = prime * result + Long.hashCode(getId());
         result = prime * result + Long.hashCode(userId);
-        result = prime * result + Integer.hashCode(diplomaScore);
+        result = prime * result + Float.hashCode(diplomaScore);
         result = prime * result + (facultyName == null ? 0 : facultyName.hashCode());
         result = prime * result + (description == null ? 0 : description.hashCode());
         result = prime * result + (mobilePhone == null ? 0 : mobilePhone.hashCode());
-        result = prime * result + (email == null ? 0 : email.hashCode());
+        result = prime * result + (fio == null ? 0 : fio.hashCode());
         result = prime * result + (status == null ? 0 : status.hashCode());
 
         return result;

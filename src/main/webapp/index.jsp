@@ -51,7 +51,7 @@
             text-align: center;
         }
 
-        select, input[type="text"], input[type="email"], input[type="number"] {
+        select, input[type="text"], input[type="fio"], input[type="number"] {
             width: 60%;
             padding: 10px;
             margin-top: 8px;
@@ -87,35 +87,32 @@
     <%
         HttpSession currentSession = request.getSession();
         boolean isLogged = Boolean.TRUE.equals(currentSession.getAttribute(ServletConstants.IS_LOG_ATTRIBUTE));
-        if(isLogged){
+
+    if(isLogged){
     %>
         <form action="TODO" method="get">
             <input type="submit" value="Аккаунт">
         </form>
     <%
-        }
-        else{
+    }
+    else{
     %>
         <form action="<%=request.getContextPath() + ServletConstants.LOGIN_PAGE_REDIRECT%>" method="get">
             <input type="submit" value="Войти">
         </form>
     <%
-        }
+    }
     %>
-
 </div>
 
-<div class="container">
+<div cla ss="container">
 
     <h1>Добро пожаловать!</h1>
 
     <h3>Выберите специальность для подачи документов</h3>
 
-    <%
-        if(isLogged){
-    %>
-    <form action="TODO" method="post">
-        <select name="specialty">
+    <form action="<%=request.getContextPath() + ServletConstants.QUESTIONNAIRE_PAGE_REDIRECT%>" method="get">
+        <select name="<%=ServletConstants.SPECIALITY_ATTRIBUTE%>">
             <option value="informatika">Информатика</option>
             <option value="ekonomika">Экономика</option>
             <option value="yurisprudenciya">Юриспруденция</option>
@@ -125,30 +122,21 @@
         <br>
         <input type="submit" value="Подать документы">
     </form>
-    <%
-        }
-        else{
-    %>
-    <form action="<%=request.getContextPath() + ServletConstants.LOGIN_PAGE_REDIRECT%>" method="get">
-        <select name="specialty">
-            <option value="informatika">Информатика</option>
-            <option value="ekonomika">Экономика</option>
-            <option value="yurisprudenciya">Юриспруденция</option>
-            <option value="stroitelstvo">Строительство</option>
-        </select>
-
-        <br>
-        <input type="submit" value="Подать документы">
-    </form>
-    <%
-        }
-    %>
 
 
     <hr>
+    <h2 style="text-align:center; margin-top:20px;">Наш университет и студенческая жизнь</h2>
 
+    <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 20px;">
 
+        <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b"
+             alt="Университет"
+             style="width: 45%; border-radius: 10px; box-shadow: 0 0 6px rgba(0,0,0,0.2);">
 
+        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d"
+             alt="Учеба"
+             style="width: 45%; border-radius: 10px; box-shadow: 0 0 6px rgba(0,0,0,0.2);">
+    </div>
 </div>
 
 </body>

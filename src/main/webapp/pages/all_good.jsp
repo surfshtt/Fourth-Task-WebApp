@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Анкета абитуриента</title>
+    <title>Главная страница — Подача документов</title>
 
     <style>
         body {
@@ -51,7 +51,7 @@
             text-align: center;
         }
 
-        select, input[type="text"], input[type="email"], input[type="number"] {
+        select, input[type="text"], input[type="fio"], input[type="number"] {
             width: 60%;
             padding: 10px;
             margin-top: 8px;
@@ -84,25 +84,53 @@
 <div class="top-bar">
     <div style="font-size: 25px">МИНСКИЙ УНИВЕРСИТЕТ ИННОВАЙЗ</div>
 
+    <%
+        HttpSession currentSession = request.getSession();
+        boolean isLogged = Boolean.TRUE.equals(currentSession.getAttribute(ServletConstants.IS_LOG_ATTRIBUTE));
+
+        if(isLogged){
+    %>
     <form action="TODO" method="get">
-        <input type="submit" value="Профиль">
+        <input type="submit" value="Аккаунт">
     </form>
+    <%
+    }
+    else{
+    %>
+    <form action="<%=request.getContextPath() + ServletConstants.LOGIN_PAGE_REDIRECT%>" method="get">
+        <input type="submit" value="Войти">
+    </form>
+    <%
+        }
+    %>
 </div>
 
-<div class="container">
+<div cla ss="container">
 
-    <h1>Приветствуем!</h1>
+    <br>
+    <br>
 
-    <h3>Анкета абитуриента</h3>
+    <h1>Успешно!</h1>
 
-    <form action="TODO" method="post">
-        <input type="text" name="fio" placeholder="ФИО" required><br><br>
-        <input type="email" name="email" placeholder="Email" required><br><br>
-        <input type="text" name="phone" placeholder="Телефон"><br><br>
-        <input type="number" name="age" placeholder="Возраст"><br><br>
+    <h3>Ваша анкета подана! Следите за ее состоянием в профиле. </h3>
 
-        <input type="submit" value="Сохранить анкету">
-    </form>
+    <br>
+    <br>
+    <br>
+
+    <hr>
+    <h2 style="text-align:center; margin-top:20px;">Наш университет и студенческая жизнь</h2>
+
+    <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 20px;">
+
+        <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b"
+             alt="Университет"
+             style="width: 45%; border-radius: 10px; box-shadow: 0 0 6px rgba(0,0,0,0.2);">
+
+        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d"
+             alt="Учеба"
+             style="width: 45%; border-radius: 10px; box-shadow: 0 0 6px rgba(0,0,0,0.2);">
+    </div>
 </div>
 
 </body>

@@ -9,11 +9,17 @@ public final class ServletConstants {
     static final String USER_NAME_PARAMETER = "username";
     static final String PASSWORD_PARAMETER = "password";
     static final String EMAIL_PARAMETER = "email";
+    static final String FIO_PARAMETER = "fio";
+    static final String DIPLOMA_SCORE_PARAMETER = "diplomaScore";
+    static final String DESCRIPTION_PARAMETER = "description";
+    static final String MOBILE_PHONE_PARAMETER = "mobilePhone";
+    static final String SPECIALITY_PARAMETER = "speciality";
 
     static final String MAIN_PAGE = "index.jsp";
     static final String LOGIN_PAGE = "/pages/login.jsp";
     static final String REG_PAGE = "/pages/registration.jsp";
     static final String QUESTIONNAIRE_PAGE = "/pages/questionnaire.jsp";
+    static final String ALL_GOOD_PAGE = "/pages/all_good.jsp";
     static final String ERROR_PAGE = "/pages/error.jsp";
 
     public static final String MAIN_PAGE_REDIRECT = "/main";

@@ -9,15 +9,38 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
 public class ApplicationDao implements BaseDao<ApplicationModel> {
     private static final Logger logger = LogManager.getLogger();
 
-    private final ConnectionPool connectionPool = ConnectionPool.getInstance();;
+    private final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
+    private static final String FIND_BY_USER_ID_QUERY = "SELECT (user_id, faculty_name, diploma_score, description, mobile_phone, fio, status) FROM application WHERE user_id = ?;";
     private static final String INSERT_QUERY = "INSERT INTO application (user_id, faculty_name, diploma_score, description, mobile_phone, fio, status) VALUES (?, ?, ?, ?, ?, ?, ?);";
+
+    public ApplicationModel findByUserId(long id) throws DaoException {
+        ApplicationModel applicationModel = null;
+        Connection connection = null;
+
+        try {
+            connection = connectionPool.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_USER_ID_QUERY);
+            preparedStatement.setLong(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            //TODO
+
+        } catch (SQLException e) {
+            throw new DaoException(e.getMessage());
+        } finally {
+            connectionPool.releaseConnection(connection);
+        }
+
+        return applicationModel;
+    }
 
     @Override
     public void insert(ApplicationModel applicationModel) throws DaoException {
@@ -46,7 +69,7 @@ public class ApplicationDao implements BaseDao<ApplicationModel> {
     }
 
     @Override
-    public ApplicationModel findById(int id) throws DaoException {
+    public ApplicationModel findById(long id) throws DaoException {
         throw new UnsupportedOperationException("Not supported yet");
     }
 

@@ -10,38 +10,35 @@ import jakarta.servlet.annotation.*;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
-@WebServlet(name = "LoginServlet", value = ServletConstants.LOGIN_PAGE_REDIRECT)
+@WebServlet(name = "LoginServlet", value = Constant.LOGIN_PAGE_REDIRECT)
 public class LoginServlet extends HttpServlet {
     private static final Logger logger = LogManager.getLogger();
 
-    private final AuthenticationServiceImpl authenticationService  = new AuthenticationServiceImpl();;
+    private final AuthenticationServiceImpl authenticationService = new AuthenticationServiceImpl();
 
     public void init() {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        request.getRequestDispatcher(ServletConstants.LOGIN_PAGE).forward(request,response);
+        request.getRequestDispatcher(Constant.LOGIN_PAGE).forward(request, response);
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username = request.getParameter(ServletConstants.USER_NAME_PARAMETER);
-        String password = request.getParameter(ServletConstants.PASSWORD_PARAMETER);
+        String username = request.getParameter(Constant.USER_NAME_PARAMETER);
+        String password = request.getParameter(Constant.PASSWORD_PARAMETER);
 
         try {
-            if(authenticationService.tryLogin(username, password)){
+            if (authenticationService.tryLogin(username, password)) {
                 HttpSession session = request.getSession();
-                session.setAttribute(ServletConstants.USER_NAME_ATTRIBUTE, username);
-                session.setAttribute(ServletConstants.IS_LOG_ATTRIBUTE, true);
-
-                response.sendRedirect(request.getContextPath() + ServletConstants.MAIN_PAGE_REDIRECT);
+                session.setAttribute(Constant.USER_NAME_ATTRIBUTE, username);
+                session.setAttribute(Constant.IS_LOG_ATTRIBUTE, true);
+                response.sendRedirect(request.getContextPath() + Constant.MAIN_PAGE_REDIRECT);
+            } else {
+                request.setAttribute(Constant.ERROR_MESSAGE_ATTRIBUTE, "Incorrect username or password");
+                request.getRequestDispatcher(Constant.LOGIN_PAGE).forward(request, response);
             }
-            else{
-                request.setAttribute(ServletConstants.ERROR_MESSAGE_ATTRIBUTE, "Неправильное имя пользователя или пароль.");
-                request.getRequestDispatcher(ServletConstants.LOGIN_PAGE).forward(request, response);
-            }
-        }
-        catch (ServiceException e) {
-            request.getRequestDispatcher(ServletConstants.ERROR_PAGE).forward(request, response);
+        } catch (ServiceException e) {
+            request.getRequestDispatcher(Constant.ERROR_PAGE).forward(request, response);
         }
     }
 

@@ -29,24 +29,23 @@ public class UserDao implements BaseDao<UserModel> {
     public UserDao() {
         try {
             connectionPool = ConnectionPool.getInstance();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new ExceptionInInitializerError("Cannot get pool's instance");
         }
     }
 
     @Override
-    public UserModel findById(int id) throws DaoException {
+    public UserModel findById(long id) throws DaoException {
         UserModel user = null;
         Connection connection = null;
 
-        try{
+        try {
             connection = connectionPool.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID_QUERY);
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 user = new UserModel();
                 user.setId(resultSet.getInt("id"));
                 user.setName(resultSet.getString("name"));
@@ -54,11 +53,10 @@ public class UserDao implements BaseDao<UserModel> {
                 user.setEmail(resultSet.getString("email"));
                 user.setRole(UserModel.Role.valueOf(resultSet.getString("role")));
                 logger.info("DAO: User with id {} was found", id);
-            }
-            else{
+            } else {
                 logger.info("DAO: User with id {} wasn't found", id);
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             logger.error("DAO: Search of a user with id {} is failed", id);
             throw new DaoException("Failed to find a user with id " + id);
         } finally {
@@ -73,12 +71,12 @@ public class UserDao implements BaseDao<UserModel> {
         List<UserModel> users = new ArrayList<>();
         Connection connection = null;
 
-        try{
+        try {
             connection = connectionPool.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_QUERY);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 UserModel user = new UserModel();
                 user.setId(resultSet.getInt("id"));
                 user.setName(resultSet.getString("name"));
@@ -87,10 +85,10 @@ public class UserDao implements BaseDao<UserModel> {
                 user.setRole(UserModel.Role.valueOf(resultSet.getString("role")));
                 users.add(user);
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             logger.error("DAO: Failed to find all users");
             throw new DaoException("Failed to find users");
-        }finally{
+        } finally {
             connectionPool.releaseConnection(connection);
         }
 
@@ -101,7 +99,7 @@ public class UserDao implements BaseDao<UserModel> {
     public void insert(UserModel user) throws DaoException {
         Connection connection = null;
 
-        try{
+        try {
             connection = connectionPool.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_QUERY);
 
@@ -112,10 +110,10 @@ public class UserDao implements BaseDao<UserModel> {
 
             preparedStatement.executeUpdate();
             logger.info("DAO: User was successfully inserted");
-        } catch (SQLException e){
+        } catch (SQLException e) {
             logger.error("DAO: Failed to insert user " + e);
             throw new DaoException("Failed to insert user");
-        }finally {
+        } finally {
             connectionPool.releaseConnection(connection);
         }
     }
@@ -142,7 +140,7 @@ public class UserDao implements BaseDao<UserModel> {
         } catch (SQLException e) {
             logger.error("DAO: Failed to update user {}", user.getId());
             throw new DaoException("Failed to update user");
-        }finally {
+        } finally {
             connectionPool.releaseConnection(connection);
         }
     }
@@ -166,7 +164,7 @@ public class UserDao implements BaseDao<UserModel> {
         } catch (SQLException e) {
             logger.error("DAO: Failed to delete user {}", user.getId());
             throw new DaoException("Failed to update user");
-        } finally{
+        } finally {
             connectionPool.releaseConnection(connection);
         }
     }
@@ -175,13 +173,13 @@ public class UserDao implements BaseDao<UserModel> {
         UserModel user = null;
         Connection connection = null;
 
-        try{
+        try {
             connection = connectionPool.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_NAME_QUERY);
             preparedStatement.setString(1, name);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 user = new UserModel();
                 user.setId(resultSet.getInt("id"));
                 user.setName(resultSet.getString("name"));
@@ -189,11 +187,10 @@ public class UserDao implements BaseDao<UserModel> {
                 user.setEmail(resultSet.getString("email"));
                 user.setRole(UserModel.Role.valueOf(resultSet.getString("role")));
                 logger.info("DAO: User with name {} was found", name);
-            }
-            else{
+            } else {
                 logger.info("DAO: User with name {} wasn't found", name);
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             logger.error("DAO: Search o user is failed: " + e);
             throw new DaoException("Failed to find a user with name " + name);
         } finally {

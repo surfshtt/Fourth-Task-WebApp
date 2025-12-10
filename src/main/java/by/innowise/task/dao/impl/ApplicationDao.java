@@ -15,25 +15,15 @@ import java.util.List;
 public class ApplicationDao implements BaseDao<ApplicationModel> {
     private static final Logger logger = LogManager.getLogger();
 
-    private final ConnectionPool connectionPool;
+    private final ConnectionPool connectionPool = ConnectionPool.getInstance();;
 
     private static final String INSERT_QUERY = "INSERT INTO application (user_id, faculty_name, diploma_score, description, mobile_phone, fio, status) VALUES (?, ?, ?, ?, ?, ?, ?);";
-
-
-    public ApplicationDao() {
-        try {
-            connectionPool = ConnectionPool.getInstance();
-        }
-        catch (Exception e) {
-            throw new ExceptionInInitializerError("Cannot get pool's instance");
-        }
-    }
 
     @Override
     public void insert(ApplicationModel applicationModel) throws DaoException {
         Connection connection = null;
 
-        try{
+        try {
             connection = connectionPool.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_QUERY);
 
@@ -47,10 +37,10 @@ public class ApplicationDao implements BaseDao<ApplicationModel> {
 
             preparedStatement.executeUpdate();
             logger.info("DAO: User was successfully inserted");
-        } catch (SQLException e){
+        } catch (SQLException e) {
             logger.error("DAO: Failed to insert user " + e);
             throw new DaoException("Failed to insert user");
-        }finally {
+        } finally {
             connectionPool.releaseConnection(connection);
         }
     }

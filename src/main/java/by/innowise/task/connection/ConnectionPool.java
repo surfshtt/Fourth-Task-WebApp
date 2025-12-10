@@ -21,22 +21,27 @@ public class ConnectionPool {
     static {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (Exception e) {
+        } catch (ClassNotFoundException e) {
             throw new ExceptionInInitializerError(e);
         }
     }
 
-    public static synchronized ConnectionPool getInstance() throws SQLException {
+    public static synchronized ConnectionPool getInstance() {
         if (instance == null) {
             instance = new ConnectionPool();
         }
         return instance;
     }
 
-    private ConnectionPool() throws SQLException {
+    private ConnectionPool() {
         for (int i = 0; i < POOL_SIZE; i++) {
-            Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-            availableConnections.add(connection);
+            try {
+                Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+                availableConnections.add(connection);
+            }
+            catch (SQLException e) {
+                throw new ExceptionInInitializerError(e);
+            }
         }
     }
 

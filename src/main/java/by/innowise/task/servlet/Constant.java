@@ -1,6 +1,6 @@
 package by.innowise.task.servlet;
 
-public final class ServletConstants {
+public final class Constant {
     public static final String USER_NAME_ATTRIBUTE = "username";
     public static final String IS_LOG_ATTRIBUTE = "isLog";
     public static final String SPECIALITY_ATTRIBUTE = "speciality";
@@ -20,13 +20,15 @@ public final class ServletConstants {
     static final String REG_PAGE = "/pages/registration.jsp";
     static final String QUESTIONNAIRE_PAGE = "/pages/questionnaire.jsp";
     static final String ALL_GOOD_PAGE = "/pages/all_good.jsp";
+    static final String ACCOUNT_PAGE = "/pages/account.jsp";
     static final String ERROR_PAGE = "/pages/error.jsp";
 
     public static final String MAIN_PAGE_REDIRECT = "/main";
     public static final String LOGIN_PAGE_REDIRECT = "/login";
     public static final String REG_PAGE_REDIRECT = "/registration";
     public static final String QUESTIONNAIRE_PAGE_REDIRECT = "/questionnaire";
+    public static final String ACCOUNT_PAGE_REDIRECT = "/account";
 
-
-    private ServletConstants() {}
+    private Constant() {
+    }
 }

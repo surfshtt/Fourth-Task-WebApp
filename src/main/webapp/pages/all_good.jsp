@@ -1,4 +1,4 @@
-<%@ page import="by.innowise.task.servlet.ServletConstants" %>
+<%@ page import="by.innowise.task.servlet.Constant" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -86,7 +86,7 @@
 
     <%
         HttpSession currentSession = request.getSession();
-        boolean isLogged = Boolean.TRUE.equals(currentSession.getAttribute(ServletConstants.IS_LOG_ATTRIBUTE));
+        boolean isLogged = Boolean.TRUE.equals(currentSession.getAttribute(Constant.IS_LOG_ATTRIBUTE));
 
         if(isLogged){
     %>
@@ -97,7 +97,7 @@
     }
     else{
     %>
-    <form action="<%=request.getContextPath() + ServletConstants.LOGIN_PAGE_REDIRECT%>" method="get">
+    <form action="<%=request.getContextPath() + Constant.LOGIN_PAGE_REDIRECT%>" method="get">
         <input type="submit" value="Войти">
     </form>
     <%

@@ -1,4 +1,4 @@
-<%@ page import="by.innowise.task.servlet.ServletConstants" %>
+<%@ page import="by.innowise.task.servlet.Constant" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -15,7 +15,7 @@
 
     <div class="container">
 
-        <h1>Приветствуем <%=request.getSession().getAttribute(ServletConstants.USER_NAME_ATTRIBUTE)%>!</h1>
+        <h1>Приветствуем <%=request.getSession().getAttribute(Constant.USER_NAME_ATTRIBUTE)%>!</h1>
 
         <h3>Анкета абитуриента для выбранной специальности:</h3>
 

@@ -1,4 +1,4 @@
-<%@ page import="by.innowise.task.servlet.ServletConstants" %>
+<%@ page import="by.innowise.task.servlet.Constant" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -8,12 +8,12 @@
     <div class="login-container">
         <h2>Вход в систему</h2>
 
-        <form action="<%=request.getContextPath() + ServletConstants.LOGIN_PAGE_REDIRECT%>" method="post">
+        <form action="<%=request.getContextPath() + Constant.LOGIN_PAGE_REDIRECT%>" method="post">
             <input type="text" name="username" placeholder="Имя пользователя" required>
             <input type="password" name="password" placeholder="Пароль" required>
 
             <%
-                String errorMessage = (String) request.getAttribute(ServletConstants.ERROR_MESSAGE_ATTRIBUTE);
+                String errorMessage = (String) request.getAttribute(Constant.ERROR_MESSAGE_ATTRIBUTE);
 
                 if(errorMessage != null){
             %>
@@ -29,7 +29,7 @@
         </form>
 
         <div class="footer-text">
-            Нет аккаунта? <a href="<%=request.getContextPath() + ServletConstants.REG_PAGE_REDIRECT%>">Регистрация</a>
+            Нет аккаунта? <a href="<%=request.getContextPath() + Constant.REG_PAGE_REDIRECT%>">Регистрация</a>
         </div>
     </div>
 </body>

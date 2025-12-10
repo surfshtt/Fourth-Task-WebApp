@@ -14,24 +14,15 @@ import org.apache.logging.log4j.Logger;
 public class ApplicationServiceImpl implements ApplicationService {
     private static final Logger logger = LogManager.getLogger();
 
-    private final UserDao userDao;
-    private final ApplicationDao applicationDao;
+    private final UserDao userDao = new UserDao();
+    private final ApplicationDao applicationDao = new ApplicationDao();
 
-    public ApplicationServiceImpl() {
-        try {
-            userDao = new UserDao();
-            applicationDao = new ApplicationDao();
-        }catch (Exception e) {
-            throw new ExceptionInInitializerError(e);
-        }
-    }
-
-    public void saveQuestionnaire(ApplicationModel application, String userName) throws ServiceException{
+    public void saveQuestionnaire(ApplicationModel application, String userName) throws ServiceException {
         UserModel user;
 
         try {
             user = userDao.findByName(userName);
-        }catch (DaoException e) {
+        } catch (DaoException e) {
             logger.warn("Catch exception while trying to find user with name: {}", userName);
             throw new ServiceException(e.getMessage());
         }
@@ -39,9 +30,9 @@ public class ApplicationServiceImpl implements ApplicationService {
         application.setUserId(user.getId());
         application.setStatus(ApplicationModel.Status.SUBMITTED);
 
-        try{
+        try {
             applicationDao.insert(application);
-        }catch (DaoException e){
+        } catch (DaoException e) {
             logger.warn("Catch exception while trying to insert application: {}", application);
             throw new ServiceException(e.getMessage());
         }

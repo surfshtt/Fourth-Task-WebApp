@@ -1,4 +1,4 @@
-<%@ page import="by.innowise.task.servlet.ServletConstants" %>
+<%@ page import="by.innowise.task.servlet.Constant" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -15,7 +15,7 @@
             <input type="password" name="passwordRepeat" placeholder="Подтвердите пароль" required>
 
             <%
-                String errorMessage = (String) request.getAttribute(ServletConstants.ERROR_MESSAGE_ATTRIBUTE);
+                String errorMessage = (String) request.getAttribute(Constant.ERROR_MESSAGE_ATTRIBUTE);
                 if(errorMessage != null){
             %>
             <div style="color: red">

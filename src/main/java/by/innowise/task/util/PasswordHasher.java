@@ -1,4 +1,4 @@
-package by.innowise.task.hasher;
+package by.innowise.task.util;
 
 import org.mindrot.jbcrypt.BCrypt;
 

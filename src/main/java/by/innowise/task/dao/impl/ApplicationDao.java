@@ -18,21 +18,32 @@ public class ApplicationDao implements BaseDao<ApplicationModel> {
 
     private final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    private static final String FIND_BY_USER_ID_QUERY = "SELECT (user_id, faculty_name, diploma_score, description, mobile_phone, fio, status) FROM application WHERE user_id = ?;";
+    private static final String FIND_BY_USER_ID_QUERY = "SELECT (id, user_id, faculty_name, diploma_score, description, mobile_phone, fio, status) FROM application WHERE user_id = ?;";
     private static final String INSERT_QUERY = "INSERT INTO application (user_id, faculty_name, diploma_score, description, mobile_phone, fio, status) VALUES (?, ?, ?, ?, ?, ?, ?);";
 
-    public ApplicationModel findByUserId(long id) throws DaoException {
+    public ApplicationModel findByUserId(long userId) throws DaoException {
         ApplicationModel applicationModel = null;
         Connection connection = null;
 
         try {
             connection = connectionPool.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_USER_ID_QUERY);
-            preparedStatement.setLong(1, id);
+            preparedStatement.setLong(1, userId);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            //TODO
-
+            if (resultSet.next()) {
+                applicationModel = new ApplicationModel();
+                applicationModel.setId(resultSet.getLong(1));
+                applicationModel.setUserId(resultSet.getLong(2));
+                applicationModel.setFacultyName(resultSet.getString(3));
+                applicationModel.setDescription(resultSet.getString(4));
+                applicationModel.setMobilePhone(resultSet.getString(5));
+                applicationModel.setFio(resultSet.getString(6));
+                applicationModel.setStatus(ApplicationModel.Status.valueOf(resultSet.getString(7)));
+                logger.info("DAO: Application with userId {} was found", userId);
+            } else {
+                logger.info("DAO: Application with userId {} wasn't found", userId);
+            }
         } catch (SQLException e) {
             throw new DaoException(e.getMessage());
         } finally {

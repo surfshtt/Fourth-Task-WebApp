@@ -32,12 +32,15 @@ public class LoginServlet extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute(Constant.USER_NAME_ATTRIBUTE, username);
                 session.setAttribute(Constant.IS_LOG_ATTRIBUTE, true);
+                logger.info("SERVLET: User '{}' logged in successfully", username);
                 response.sendRedirect(request.getContextPath() + Constant.MAIN_PAGE_REDIRECT);
             } else {
+                logger.info("SERVLET: Login failed for user '{}'", username);
                 request.setAttribute(Constant.ERROR_MESSAGE_ATTRIBUTE, "Incorrect username or password");
                 request.getRequestDispatcher(Constant.LOGIN_PAGE).forward(request, response);
             }
         } catch (ServiceException e) {
+            logger.warn("SERVLET: Error during login for user '{}'", username, e);
             request.getRequestDispatcher(Constant.ERROR_PAGE).forward(request, response);
         }
     }

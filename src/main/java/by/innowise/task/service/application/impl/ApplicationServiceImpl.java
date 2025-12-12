@@ -18,6 +18,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     private final ApplicationDao applicationDao = new ApplicationDao();
 
     public void saveQuestionnaire(ApplicationModel application, String userName) throws ServiceException {
+        logger.info("SERVICE: Saving questionnaire for user '{}'", userName);
         UserModel user;
 
         try {
@@ -32,6 +33,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 
         try {
             applicationDao.insert(application);
+            logger.info("SERVICE: Questionnaire stored for user '{}'", userName);
         } catch (DaoException e) {
             logger.warn("Catch exception while trying to insert application: {}", application);
             throw new ServiceException(e.getMessage());

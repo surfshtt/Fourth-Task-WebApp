@@ -9,11 +9,15 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
 @WebServlet(name = "QuestionnaireServlet", value = Constant.QUESTIONNAIRE_PAGE_REDIRECT)
 public class QuestionnaireServlet extends HttpServlet {
+
+    private static final Logger logger = LogManager.getLogger();
 
     private final ApplicationServiceImpl applicationService = new ApplicationServiceImpl();
 
@@ -21,9 +25,11 @@ public class QuestionnaireServlet extends HttpServlet {
         if(isLogged(request)){
             String speciality = request.getParameter(Constant.SPECIALITY_ATTRIBUTE);
             request.setAttribute(Constant.SPECIALITY_ATTRIBUTE, speciality);
+            logger.info("SERVLET: Opening questionnaire page for speciality '{}'", speciality);
             request.getRequestDispatcher(Constant.QUESTIONNAIRE_PAGE).forward(request,response);
         }
         else{
+            logger.info("SERVLET: Unauthenticated questionnaire access, forwarding to login");
             request.getRequestDispatcher(Constant.LOGIN_PAGE).forward(request,response);
         }
     }
@@ -43,12 +49,15 @@ public class QuestionnaireServlet extends HttpServlet {
 
             try {
                 applicationService.saveQuestionnaire(application, userName);
+                logger.info("SERVLET: Questionnaire submitted by user '{}'", userName);
                 request.getRequestDispatcher(Constant.ALL_GOOD_PAGE).forward(request, response);
             }catch(ServiceException e){
+                logger.warn("SERVLET: Failed to submit questionnaire for user '{}'", userName, e);
                 request.getRequestDispatcher(Constant.ERROR_PAGE).forward(request, response);
             }
         }
         else{
+            logger.info("SERVLET: Unauthenticated questionnaire submission, forwarding to login");
             request.getRequestDispatcher(Constant.LOGIN_PAGE).forward(request,response);
         }
     }

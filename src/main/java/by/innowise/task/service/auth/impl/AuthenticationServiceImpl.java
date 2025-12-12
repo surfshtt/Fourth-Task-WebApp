@@ -17,6 +17,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public boolean tryLogin(String username, String password) throws ServiceException {
         if (username == null || password == null) {
+            logger.info("SERVICE: Login rejected because username or password is null");
             return false;
         }
 
@@ -29,15 +30,23 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
 
         if (user == null) {
+            logger.info("SERVICE: Login failed, user '{}' not found", username);
             return false;
         }
 
-        return PasswordHasher.verifyPassword(password, user.getPassword());
+        boolean verified = PasswordHasher.verifyPassword(password, user.getPassword());
+        if (verified) {
+            logger.info("SERVICE: User '{}' successfully authenticated", username);
+        } else {
+            logger.info("SERVICE: User '{}' failed authentication", username);
+        }
+        return verified;
     }
 
     @Override
     public boolean tryReg(UserModel user) throws ServiceException {
         if (user == null || user.getName() == null || user.getPassword() == null || user.getEmail() == null) {
+            logger.info("SERVICE: Registration rejected because required fields are missing");
             return false;
         }
 
@@ -50,6 +59,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
 
         if (existingUser != null) {
+            logger.info("SERVICE: Registration failed because user '{}' already exists", user.getName());
             return false;
         }
 
@@ -63,6 +73,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             return false;
         }
 
+        logger.info("SERVICE: User '{}' successfully registered", user.getName());
         return true;
     }
 }

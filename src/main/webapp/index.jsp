@@ -90,7 +90,7 @@
 
     if(isLogged){
     %>
-        <form action="TODO" method="get">
+        <form action="<%=request.getContextPath() + Constant.ACCOUNT_PAGE_REDIRECT%>" method="get">
             <input type="submit" value="Аккаунт">
         </form>
     <%

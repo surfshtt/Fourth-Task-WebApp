@@ -8,7 +8,7 @@
     <div class="top-bar">
         <div style="font-size: 25px">МИНСКИЙ УНИВЕРСИТЕТ ИННОВАЙЗ</div>
 
-        <form action="TODO" method="get">
+        <form action="<%=request.getContextPath() + Constant.ACCOUNT_PAGE_REDIRECT%>" method="get">
             <input type="submit" value="Профиль">
         </form>
     </div>

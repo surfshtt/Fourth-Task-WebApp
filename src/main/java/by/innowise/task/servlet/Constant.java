@@ -4,6 +4,7 @@ public final class Constant {
     public static final String USER_NAME_ATTRIBUTE = "username";
     public static final String IS_LOG_ATTRIBUTE = "isLog";
     public static final String SPECIALITY_ATTRIBUTE = "speciality";
+    public static final String APPLICATION_ATTRIBUTE = "application";
     public static final String ERROR_MESSAGE_ATTRIBUTE = "errorMessage";
 
     static final String USER_NAME_PARAMETER = "username";

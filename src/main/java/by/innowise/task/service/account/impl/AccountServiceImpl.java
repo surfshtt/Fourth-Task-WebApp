@@ -33,13 +33,14 @@ public class AccountServiceImpl implements AccountService {
             return null;
         }
 
+        ApplicationModel application;
         try {
-            ApplicationModel application = applicationDao.findByUserId(user.getId());
+            application = applicationDao.findByUserId(user.getId());
             logger.info("SERVICE: Application lookup finished for user '{}'", username);
-            return application;
         } catch (DaoException e) {
             logger.warn("SERVICE: Failed to load application for user '{}'", username, e);
             throw new ServiceException(e.getMessage());
         }
+        return application;
     }
 }

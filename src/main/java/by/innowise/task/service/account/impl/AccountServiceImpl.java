@@ -10,6 +10,8 @@ import by.innowise.task.service.account.AccountService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.List;
+
 public class AccountServiceImpl implements AccountService {
     private static final Logger logger = LogManager.getLogger();
 
@@ -42,5 +44,35 @@ public class AccountServiceImpl implements AccountService {
             throw new ServiceException(e.getMessage());
         }
         return application;
+    }
+
+    @Override
+    public UserModel getUser(String username) throws ServiceException {
+        logger.info("SERVICE: Loading user '{}'", username);
+        UserModel user;
+
+        try {
+            user = userDao.findByName(username);
+        } catch (DaoException e) {
+            logger.warn("SERVICE: Failed to load user '{}'", username, e);
+            throw new ServiceException(e.getMessage());
+        }
+
+        return user;
+    }
+
+    @Override
+    public List<ApplicationModel> getApplications() throws ServiceException {
+        logger.info("SERVICE: Loading applications");
+        List<ApplicationModel> applications;
+
+        try{
+            applications = applicationDao.findAll();
+        } catch (DaoException e) {
+            logger.warn("SERVICE: Failed to load applications", e);
+            throw new ServiceException(e.getMessage());
+        }
+
+        return applications;
     }
 }

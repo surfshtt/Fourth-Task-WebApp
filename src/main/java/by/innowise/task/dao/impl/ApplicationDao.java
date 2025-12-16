@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ApplicationDao implements BaseDao<ApplicationModel> {
@@ -20,6 +21,7 @@ public class ApplicationDao implements BaseDao<ApplicationModel> {
 
     private static final String FIND_BY_USER_ID_QUERY = "SELECT id, user_id, faculty_name, diploma_score, description, mobile_phone, fio, status FROM application WHERE user_id = ?;";
     private static final String INSERT_QUERY = "INSERT INTO application (user_id, faculty_name, diploma_score, description, mobile_phone, fio, status) VALUES (?, ?, ?, ?, ?, ?, ?);";
+    private static final String FIND_ALL_QUERY = "SELECT id, user_id, faculty_name, diploma_score, description, mobile_phone, fio, status FROM application;";
 
     public ApplicationModel findByUserId(long userId) throws DaoException {
         ApplicationModel applicationModel = null;
@@ -81,12 +83,39 @@ public class ApplicationDao implements BaseDao<ApplicationModel> {
     }
 
     @Override
-    public ApplicationModel findById(long id) throws DaoException {
-        throw new UnsupportedOperationException("Not supported yet");
+    public List<ApplicationModel> findAll() throws DaoException {
+        List<ApplicationModel> applicationModels = new ArrayList<>();
+        Connection connection = null;
+
+        try {
+            connection = connectionPool.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_QUERY);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                ApplicationModel applicationModel = new ApplicationModel();
+                applicationModel.setId(resultSet.getLong(1));
+                applicationModel.setUserId(resultSet.getLong(2));
+                applicationModel.setFacultyName(resultSet.getString(3));
+                applicationModel.setDiplomaScore(resultSet.getLong(4));
+                applicationModel.setDescription(resultSet.getString(5));
+                applicationModel.setMobilePhone(resultSet.getString(6));
+                applicationModel.setFio(resultSet.getString(7));
+                applicationModel.setStatus(ApplicationModel.Status.valueOf(resultSet.getString(8)));
+                applicationModels.add(applicationModel);
+            }
+        } catch (SQLException e) {
+            logger.error("DAO: Failed to get all applications " + e);
+            throw new DaoException("Failed to get all applications");
+        } finally {
+            connectionPool.releaseConnection(connection);
+        }
+
+        return applicationModels;
     }
 
     @Override
-    public List<ApplicationModel> findAll() throws DaoException {
+    public ApplicationModel findById(long id) throws DaoException {
         throw new UnsupportedOperationException("Not supported yet");
     }
 

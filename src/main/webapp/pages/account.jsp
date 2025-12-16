@@ -64,7 +64,7 @@
 <body>
 
 <div class="top-bar">
-    <div>МИНСКИЙ УНИВЕРСИТЕТ ИННОВАЙЗ</div>
+    <div style="font-size: 25px"><a href="<%=request.getContextPath() + Constant.MAIN_PAGE_REDIRECT%>" style="color: white">МИНСКИЙ УНИВЕРСИТЕТ ИННОВАЙЗ</a></div>
 </div>
 
 <div class="container">

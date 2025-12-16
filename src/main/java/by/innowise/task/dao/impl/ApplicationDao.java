@@ -18,7 +18,7 @@ public class ApplicationDao implements BaseDao<ApplicationModel> {
 
     private final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    private static final String FIND_BY_USER_ID_QUERY = "SELECT (id, user_id, faculty_name, diploma_score, description, mobile_phone, fio, status) FROM application WHERE user_id = ?;";
+    private static final String FIND_BY_USER_ID_QUERY = "SELECT id, user_id, faculty_name, diploma_score, description, mobile_phone, fio, status FROM application WHERE user_id = ?;";
     private static final String INSERT_QUERY = "INSERT INTO application (user_id, faculty_name, diploma_score, description, mobile_phone, fio, status) VALUES (?, ?, ?, ?, ?, ?, ?);";
 
     public ApplicationModel findByUserId(long userId) throws DaoException {
@@ -36,10 +36,11 @@ public class ApplicationDao implements BaseDao<ApplicationModel> {
                 applicationModel.setId(resultSet.getLong(1));
                 applicationModel.setUserId(resultSet.getLong(2));
                 applicationModel.setFacultyName(resultSet.getString(3));
-                applicationModel.setDescription(resultSet.getString(4));
-                applicationModel.setMobilePhone(resultSet.getString(5));
-                applicationModel.setFio(resultSet.getString(6));
-                applicationModel.setStatus(ApplicationModel.Status.valueOf(resultSet.getString(7)));
+                applicationModel.setDiplomaScore(resultSet.getLong(4));
+                applicationModel.setDescription(resultSet.getString(5));
+                applicationModel.setMobilePhone(resultSet.getString(6));
+                applicationModel.setFio(resultSet.getString(7));
+                applicationModel.setStatus(ApplicationModel.Status.valueOf(resultSet.getString(8)));
                 logger.info("DAO: Application with userId {} was found", userId);
             } else {
                 logger.info("DAO: Application with userId {} wasn't found", userId);
